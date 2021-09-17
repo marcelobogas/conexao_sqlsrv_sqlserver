@@ -9,12 +9,14 @@ $connectionInfo = [
 
 $conn = sqlsrv_connect($serverName, $connectionInfo);
 
-if($conn)
-{
-  // Sucesso ao se conectar
-  echo "A conexão foi estabelecida.<br>";
+if( $conn === false ) {
+  die( print_r( sqlsrv_errors(), true));
+}
+
+if( $client_info = sqlsrv_client_info( $conn)) {
+  foreach( $client_info as $key => $value) {
+      echo $key.": ".$value."<br />";
+  }
 } else {
-  // Falha ao se conectar
-  echo "A conexão não foi estabelecida.<br>";
-  die(print_r(sqlsrv_errors(), true));
+  echo "Error in retrieving client info.<br />";
 }
